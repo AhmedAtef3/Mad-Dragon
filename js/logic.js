@@ -199,6 +199,7 @@ fg1.draw();
 drake.draw();
 pipes.draw();
 fg2.draw();
+score.draw();
 }
 
 function update() {
