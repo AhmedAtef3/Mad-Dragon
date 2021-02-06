@@ -17,18 +17,18 @@ northPipeImage.src = "assets/img/np.png";
 const southPipeImage = new Image();
 southPipeImage.src = "assets/img/sp.png";
 //to determine the difficulty
-pipesGap = 100;
-pipesSpeed = 2;
-distanceBetweenPipes = 120
-let planetGravity=.5;
+pipesGap = 150;
+pipesSpeed = 1;
+distanceBetweenPipes = 250
+let planetGravity=1.25;
 let dragonImg=new Image();
 //dragon object
 
 const drake ={
     x:0,
     y:200,
-    w:100,
-    h:100,
+    w:75,
+    h:75,
     index:0,
     draw: function() {
         
