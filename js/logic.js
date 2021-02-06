@@ -33,6 +33,7 @@ const drake = {
     w: 90,
     h: 90,
     index: 0,
+    radius: 12,
     draw: function () {
         dragonImg.src = `${drakeSrc}/${this.index}.png`;
         ctx.drawImage(dragonImg, this.x, this.y, this.w, this.h);
@@ -147,6 +148,23 @@ const pipes = {
             p.x -= this.dx;
             let bottomPipeYPos = p.y + this.h + this.gap;
 
+            //Collision Detection
+            //Top pipe
+            if(drake.x + drake.radius > p.x && drake.x - drake.radius < p.x + this.w &&
+                drake.y + drake.radius > p.y &&  drake.y - drake.radius < p.y + this.h)
+            {
+                  //GAME OVER
+                  alert("Game Over");
+
+            }
+            //Bottom pipe
+            if(drake.x + drake.radius > p.x && drake.x - drake.radius < p.x + this.w &&
+                drake.y + drake.radius > bottomPipeYPos &&  drake.y - drake.radius < bottomPipeYPos + this.h)
+            {
+                  //GAME OVER
+                  alert("Game Over");
+
+            }
 
 
 
