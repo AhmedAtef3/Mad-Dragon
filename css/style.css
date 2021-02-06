@@ -5,46 +5,42 @@
     margin: auto;
 }
 
- #first-page {
+ #first-page #second-page {
     position: relative;
     display: block;
     margin: auto;
     border: 1px solid #000;
     width: 450px;
     height: 600px;
-    /* text-align: center; */
 }
   
-#first-page > * {
+#first-page >* #second-page>* {
     position: absolute;
 } 
 
-#page-1-bg {
+#page-1-bg #page-2-bg {
     position: absolute;
     left: 0px;
     top: 0px;
 }
 
-#play-btn {
+#play-btn, #easy-btn {
     position: absolute;
     display: inline;
-    /* margin: auto; */
     left: 96px;
     top: 215px;
 }
 
-#ctrl-btn {
+#ctrl-btn, #medium-btn {
     position: absolute;
     display: inline;
-    /* margin: auto; */
     left: 96px;
     top: 315px;
 }
 
-#about-btn {
+#about-btn, #hard-btn {
     position: absolute;
     display: inline;
-    /* margin: auto; */
     left: 96px;
     top: 415px;
 }
