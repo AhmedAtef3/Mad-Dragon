@@ -3,3 +3,68 @@
     display: block;
     margin: auto;
 }
+
+ #first-page {
+    position: relative;
+    display: block;
+    margin: auto;
+    border: 1px solid #000;
+    width: 450px;
+    height: 600px;
+    /* text-align: center; */
+}
+  
+#first-page > * {
+    position: absolute;
+} 
+
+#page-1-bg {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+#play-btn {
+    position: absolute;
+    display: inline;
+    /* margin: auto; */
+    left: 96px;
+    top: 215px;
+}
+
+#ctrl-btn {
+    position: absolute;
+    display: inline;
+    /* margin: auto; */
+    left: 96px;
+    top: 315px;
+}
+
+#about-btn {
+    position: absolute;
+    display: inline;
+    /* margin: auto; */
+    left: 96px;
+    top: 415px;
+}
+
+.btns:hover {
+    transform: scale(1.1, 1.1);
+}
+
+.dragon-img {
+    width: 160px;
+    height: 160px;
+    display: block;
+    border: 1px solid #000;
+    margin: auto;
+}
+
+#third-page {
+    border: 1px solid #000;
+    width: 450px;
+    height: 600px;
+}
+p {
+    font-size: 28px;
+}
