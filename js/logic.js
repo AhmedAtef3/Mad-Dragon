@@ -22,23 +22,29 @@ pipesSpeed = 1;
 distanceBetweenPipes = 250
 let planetGravity=1.25;
 let dragonImg=new Image();
-//dragon object
+let drakeFPS = parseInt(localStorage.dragonFrames);
+let drakeSrc = localStorage.dragon;
+console.log(drakeFPS);
 
-const drake ={
+//dragon object
+const drake = {
     x:0,
     y:200,
-    w:75,
-    h:75,
+    w:90,
+    h:90,
     index:0,
     draw: function() {
+       
+            dragonImg.src=`${drakeSrc}/${this.index}.png`;
+           
         
-        dragonImg.src=`assets/img/0-dragon/${this.index}.png`;
+        // dragonImg.src=`assets/img/0-dragon/${this.index}.png`;
         ctx.drawImage(dragonImg, this.x, this.y, this.w, this.h);
          
 },
     update:function(){
         if(frames%10==0){
-        if(this.index<5){
+        if(this.index<drakeFPS){
             this.index++;
         }else{
             this.index=0;
@@ -50,13 +56,11 @@ const drake ={
     gravity:function(){
         if(this.y)
         this.y+=planetGravity;
-        console.log("current y="+this.y);
-    }
-    ,  
+
+    },  
     moveUp:function(){
         if(this.y-50>0){
            this.y-=50;
-            console.log("y="+this.y);
         }
     }
 
@@ -150,41 +154,12 @@ const pipes = {
             //Delete pipes that reached the end of canvas from array
             if(p.x+this.w <= 0) {
                 this.position.shift();
-                score.value += 1;
-                score.best = Math.max(score.value , score.best);
-                localStorage.setItem("best",score.best);
             }
         }
     }
 }
 
 //South pipe object
-
-
-//Score
-const score = {
-
-best: parseInt(localStorage.getItem("best")) || 0,
-value: 0,
-
-draw: function (){
-
-ctx.fillStyle= "#FFF";
-ctx.strokeStyle="#000";
-
-ctx.lineWidth = 2;
-ctx.font = "35px Teko";
-ctx.fillText(this.value , cvs.width/2 ,50);
-ctx.strokeText(this.value , cvs.width/2 ,50);
-
-
-
-}
-
-
-
-
-}
 
 //Draw all canvas elements
 function draw() {
@@ -193,7 +168,6 @@ function draw() {
     drake.draw();
     pipes.draw();
     fg2.draw();
-    score.draw();
 }
 
 function update() {
