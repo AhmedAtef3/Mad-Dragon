@@ -20,43 +20,44 @@ southPipeImage.src = "assets/img/sp.png";
 pipesGap = 150;
 pipesSpeed = 1;
 distanceBetweenPipes = 250
-let planetGravity=1.25;
-let dragonImg=new Image();
+let planetGravity = 1.25;
+let dragonImg = new Image();
 //dragon object
 
-const drake ={
-    x:0,
-    y:200,
-    w:75,
-    h:75,
-    index:0,
-    draw: function() {
-        
-        dragonImg.src=`assets/img/0-dragon/${this.index}.png`;
+const drake = {
+    x: 0,
+    y: 200,
+    w: 75,
+    h: 75,
+    index: 0,
+    radius: 12,
+    draw: function () {
+
+        dragonImg.src = `assets/img/0-dragon/${this.index}.png`;
         ctx.drawImage(dragonImg, this.x, this.y, this.w, this.h);
-         
-},
-    update:function(){
-        if(frames%10==0){
-        if(this.index<5){
-            this.index++;
-        }else{
-            this.index=0;
-        }
-    }
-        this.gravity();
-  
+
     },
-    gravity:function(){
-        if(this.y)
-        this.y+=planetGravity;
-        console.log("current y="+this.y);
+    update: function () {
+        if (frames % 10 == 0) {
+            if (this.index < 5) {
+                this.index++;
+            } else {
+                this.index = 0;
+            }
+        }
+        this.gravity();
+
+    },
+    gravity: function () {
+        if (this.y)
+            this.y += planetGravity;
+        console.log("current y=" + this.y);
     }
-    ,  
-    moveUp:function(){
-        if(this.y-50>0){
-           this.y-=50;
-            console.log("y="+this.y);
+    ,
+    moveUp: function () {
+        if (this.y - 50 > 0) {
+            this.y -= 50;
+            console.log("y=" + this.y);
         }
     }
 
@@ -69,7 +70,7 @@ const bg = {
     w: 450,
     h: 600,
 
-    draw: function() {
+    draw: function () {
         ctx.drawImage(bgImage, this.x, this.y, this.w, this.h);
     }
 };
@@ -82,12 +83,12 @@ const fg1 = {
     h: 209,
     dx: 2,
 
-    draw: function() {
+    draw: function () {
         ctx.drawImage(fg1Image, this.x, this.y, this.w, this.h);
     },
 
-    update: function() {
-        this.x = (this.x-this.dx)%(this.w/2);
+    update: function () {
+        this.x = (this.x - this.dx) % (this.w / 2);
     }
 
 };
@@ -100,27 +101,27 @@ const fg2 = {
     h: 141,
     dx: 2,
 
-    draw: function() {
+    draw: function () {
         ctx.drawImage(fg2Image, this.x, this.y, this.w, this.h);
     },
 
-    update: function() {
-        this.x = (this.x-this.dx)%(this.w/2);
+    update: function () {
+        this.x = (this.x - this.dx) % (this.w / 2);
     }
 
 };
 
 //Pipes object
 const pipes = {
-    position: [],    
+    position: [],
     maxYPos: -260,
     w: 75,
     h: 561,
     gap: pipesGap,
     dx: pipesSpeed,
 
-    draw: function() {
-        for(let i=0; i<this.position.length; i++) {
+    draw: function () {
+        for (let i = 0; i < this.position.length; i++) {
             let p = this.position[i];
             let northY = p.y;
             let southY = northY + this.h + this.gap;
@@ -131,28 +132,35 @@ const pipes = {
         }
     },
 
-    update: function() {
+    update: function () {
         //Create new pipes with random y position
-        if(frames%distanceBetweenPipes === 0) {
+        if (frames % distanceBetweenPipes === 0) {
             this.position.push({
                 x: cvs.width,
                 // y: Math.floor((Math.random() * this.maxYPos) + 1)
-                y: this.maxYPos * (Math.random()+1)
+                y: this.maxYPos * (Math.random() + 1)
             })
         }
 
-        for(let i=0; i<this.position.length; i++) {
+        for (let i = 0; i < this.position.length; i++) {
             let p = this.position[i];
 
             //Move pipes to the left
             p.x -= this.dx;
+            let bottomPipeYPos = p.y + this.h + this.gap;
 
+            
+
+
+             
             //Delete pipes that reached the end of canvas from array
-            if(p.x+this.w <= 0) {
+            if (p.x + this.w <= 0) {
                 this.position.shift();
+
+                //Increment Score
                 score.value += 1;
-                score.best = Math.max(score.value , score.best);
-                localStorage.setItem("best",score.best);
+                score.best = Math.max(score.value, score.best);
+                localStorage.setItem("best", score.best);
             }
         }
     }
@@ -164,25 +172,20 @@ const pipes = {
 //Score
 const score = {
 
-best: parseInt(localStorage.getItem("best")) || 0,
-value: 0,
+    best: parseInt(localStorage.getItem("best")) || 0,
+    value: 0,
 
-draw: function (){
+    draw: function () {
 
-ctx.fillStyle= "#FFF";
-ctx.strokeStyle="#000";
+        ctx.fillStyle = "#FFF";
+        ctx.strokeStyle = "#000";
 
-ctx.lineWidth = 2;
-ctx.font = "35px Teko";
-ctx.fillText(this.value , cvs.width/2 ,50);
-ctx.strokeText(this.value , cvs.width/2 ,50);
+        ctx.lineWidth = 2;
+        ctx.font = "35px Teko";
+        ctx.fillText(this.value, cvs.width / 2, 50);
+        ctx.strokeText(this.value, cvs.width / 2, 50);
 
-
-
-}
-
-
-
+    }
 
 }
 
@@ -203,13 +206,13 @@ function update() {
     pipes.update();
 }
 
-function loop () {
+function loop() {
     update();
     draw();
     frames++;
     requestAnimationFrame(loop);
 }
 loop();
-cvs.addEventListener("click",()=>{
+cvs.addEventListener("click", () => {
     drake.moveUp();
 });
