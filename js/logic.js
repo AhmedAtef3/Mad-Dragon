@@ -20,7 +20,47 @@ southPipeImage.src = "assets/img/sp.png";
 pipesGap = 100;
 pipesSpeed = 2;
 distanceBetweenPipes = 120
+let planetGravity=.5;
+let dragonImg=new Image();
+//dragon object
 
+const drake ={
+    x:0,
+    y:200,
+    w:100,
+    h:100,
+    index:0,
+    draw: function() {
+        
+        dragonImg.src=`assets/img/0-dragon/${this.index}.png`;
+        ctx.drawImage(dragonImg, this.x, this.y, this.w, this.h);
+         
+},
+    update:function(){
+        if(frames%10==0){
+        if(this.index<5){
+            this.index++;
+        }else{
+            this.index=0;
+        }
+    }
+        this.gravity();
+  
+    },
+    gravity:function(){
+        if(this.y)
+        this.y+=planetGravity;
+        console.log("current y="+this.y);
+    }
+    ,  
+    moveUp:function(){
+        if(this.y-50>0){
+           this.y-=50;
+            console.log("y="+this.y);
+        }
+    }
+
+}
 
 //background object
 const bg = {
@@ -121,6 +161,7 @@ const pipes = {
 function draw() {
     bg.draw();
     fg1.draw();
+    drake.draw();
     pipes.draw();
     fg2.draw();
 }
@@ -128,6 +169,7 @@ function draw() {
 function update() {
     fg1.update();
     fg2.update();
+    drake.update();
     pipes.update();
 }
 
@@ -137,5 +179,7 @@ function loop () {
     frames++;
     requestAnimationFrame(loop);
 }
-
 loop();
+cvs.addEventListener("click",()=>{
+    drake.moveUp();
+});
