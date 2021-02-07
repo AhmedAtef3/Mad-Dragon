@@ -5,7 +5,7 @@
     margin: auto;
 }
 
- #first-page #second-page {
+ #first-page, #second-page {
     position: relative;
     display: block;
     margin: auto;

@@ -16,15 +16,57 @@ const northPipeImage = new Image();
 northPipeImage.src = "assets/img/np.png";
 const southPipeImage = new Image();
 southPipeImage.src = "assets/img/sp.png";
-//to determine the difficulty
-pipesGap = 150;
-pipesSpeed = 1;
-distanceBetweenPipes = 250
-let planetGravity = 1.25;
+
+//Difficulty object
+const difficulty = {
+    easy: {
+        pipesGap: 175,
+        pipesSpeed: 1,
+        distanceBetweenPipes: 220,
+        planetGravity: 1.25,
+        flappingSpeed: 10,
+        jumpHeight: 50 
+    },
+    medium: {
+        pipesGap: 120,
+        pipesSpeed: 3,
+        distanceBetweenPipes: 100,
+        planetGravity: 1.25,
+        flappingSpeed: 7,
+        jumpHeight: 50
+    },
+    hard: {
+        pipesGap: 150,
+        pipesSpeed: 4,
+        distanceBetweenPipes: 80,
+        planetGravity: 3,
+        flappingSpeed: 4,
+        jumpHeight: 80
+    },
+
+    getDifficulty: function() {
+        switch(localStorage.difficulty) {
+            case "easy":
+                return this.easy;
+            case "medium":
+                return this.medium;
+            case "hard":
+                return this.hard;
+        }
+    }
+}
+
+//Drake variables
+let planetGravity = difficulty.getDifficulty().planetGravity;
 let dragonImg = new Image();
 let drakeFPS = parseInt(localStorage.dragonFrames);
 let drakeSrc = localStorage.dragon;
-console.log(drakeFPS);
+let flappingSpeed = difficulty.getDifficulty().flappingSpeed;
+let jumpHeight = difficulty.getDifficulty().jumpHeight;
+//Difficulty Variables
+let pipesGap = difficulty.getDifficulty().pipesGap;
+let pipesSpeed = difficulty.getDifficulty().pipesSpeed;
+let distanceBetweenPipes = difficulty.getDifficulty().distanceBetweenPipes;
 
 //dragon object
 const drake = {
@@ -38,25 +80,24 @@ const drake = {
         dragonImg.src = `${drakeSrc}/${this.index}.png`;
         ctx.drawImage(dragonImg, this.x, this.y, this.w, this.h);
     },
-    update:function(){
-        if(frames%10==0){
-        if(this.index<drakeFPS){
-            this.index++;
-        }else{
-            this.index=0;
+    update: function () {
+        if (frames % flappingSpeed == 0) {
+            if (this.index < drakeFPS) {
+                this.index++;
+            } else {
+                this.index = 0;
+            }
         }
-    }
         this.gravity();
-  
     },
-    gravity:function(){
-        if(this.y)
-        this.y+=planetGravity;
+    gravity: function () {
+        if (this.y)
+            this.y += planetGravity;
 
-    },  
-    moveUp:function(){
-        if(this.y-50>0){
-           this.y-=50;
+    },
+    moveUp: function () {
+        if (this.y - jumpHeight > 0) {
+            this.y -= jumpHeight;
         }
     }
 
