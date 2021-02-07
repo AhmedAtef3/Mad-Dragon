@@ -16,16 +16,17 @@ const northPipeImage = new Image();
 northPipeImage.src = "assets/img/np.png";
 const southPipeImage = new Image();
 southPipeImage.src = "assets/img/sp.png";
+let isGameOver = false;
 
 //Difficulty object
 const difficulty = {
     easy: {
-        pipesGap: 175,
+        pipesGap: 200,
         pipesSpeed: 1,
-        distanceBetweenPipes: 220,
+        distanceBetweenPipes: 350,
         planetGravity: 1.25,
         flappingSpeed: 10,
-        jumpHeight: 50 
+        jumpHeight: 50
     },
     medium: {
         pipesGap: 120,
@@ -44,8 +45,8 @@ const difficulty = {
         jumpHeight: 80
     },
 
-    getDifficulty: function() {
-        switch(localStorage.difficulty) {
+    getDifficulty: function () {
+        switch (localStorage.difficulty) {
             case "easy":
                 return this.easy;
             case "medium":
@@ -75,7 +76,7 @@ const drake = {
     w: 90,
     h: 90,
     index: 0,
-    radius: 12,
+    radius: 90,
     draw: function () {
         dragonImg.src = `${drakeSrc}/${this.index}.png`;
         ctx.drawImage(dragonImg, this.x, this.y, this.w, this.h);
@@ -91,9 +92,13 @@ const drake = {
         this.gravity();
     },
     gravity: function () {
-        if (this.y)
+      
             this.y += planetGravity;
-
+            
+       if(this.y+this.h>=(cvs.height-fg2.h)){
+           isGameOver=true
+          
+       }
     },
     moveUp: function () {
         if (this.y - jumpHeight > 0) {
@@ -177,8 +182,8 @@ const pipes = {
         if (frames % distanceBetweenPipes === 0) {
             this.position.push({
                 x: cvs.width,
-                // y: Math.floor((Math.random() * this.maxYPos) + 1)
-                y: this.maxYPos * (Math.random() + 1)
+                 y: Math.floor(this.maxYPos * (Math.random() + 1))
+                //y: this.maxYPos * (Math.random() + 1)
             })
         }
 
@@ -189,21 +194,23 @@ const pipes = {
             p.x -= this.dx;
             let bottomPipeYPos = p.y + this.h + this.gap;
 
-            //Collision Detection
-            //Top pipe
-            if(drake.x + drake.radius > p.x && drake.x - drake.radius < p.x + this.w &&
-                drake.y + drake.radius > p.y &&  drake.y - drake.radius < p.y + this.h)
-            {
-                  //GAME OVER
-                  alert("Game Over");
+          
+            if (drake.x + drake.radius > p.x &&
+                drake.x - drake.radius < p.x + this.w &&
+                drake.y + drake.radius > p.y && drake.y < p.y + this.h) {
+
+             
+                    isGameOver = true;
+
 
             }
             //Bottom pipe
-            if(drake.x + drake.radius > p.x && drake.x - drake.radius < p.x + this.w &&
-                drake.y + drake.radius > bottomPipeYPos &&  drake.y - drake.radius < bottomPipeYPos + this.h)
-            {
-                  //GAME OVER
-                  alert("Game Over");
+            if (drake.x + drake.radius > p.x && 
+                drake.x - drake.radius < p.x + this.w &&
+                drake.y + drake.radius > bottomPipeYPos) {
+             
+                    isGameOver = true;
+
 
             }
 
@@ -237,7 +244,7 @@ const score = {
         ctx.fillStyle = "#FFF";
         ctx.strokeStyle = "#000";
         ctx.lineWidth = 1;
-        ctx.font = "35px Teko";
+        ctx.font = "35px arial";
         ctx.fillText(this.value, cvs.width / 2, 50);
         ctx.strokeText(this.value, cvs.width / 2, 50);
 
@@ -263,10 +270,13 @@ function update() {
 }
 
 function loop() {
-    update();
-    draw();
-    frames++;
-    requestAnimationFrame(loop);
+    if (!isGameOver) {
+        update();
+        draw();
+        frames++;
+        requestAnimationFrame(loop);
+      
+    }
 }
 loop();
 cvs.addEventListener("click", () => {
