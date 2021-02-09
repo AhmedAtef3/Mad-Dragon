@@ -2,6 +2,9 @@
 const cvs = document.getElementById("game-canvas");
 const ctx = cvs.getContext("2d");
 
+cvs.height = window.innerHeight;
+cvs.width = window.innerWidth;
+
 //Creat game variables and constants
 let frames = 0;
 //Background images
@@ -112,8 +115,8 @@ const drake = {
 const bg = {
     x: 0,
     y: 0,
-    w: 450,
-    h: 600,
+    w: cvs.width,
+    h: cvs.height,
 
     draw: function () {
         ctx.drawImage(bgImage, this.x, this.y, this.w, this.h);
@@ -123,9 +126,9 @@ const bg = {
 //first foreground object under pipes
 const fg1 = {
     x: 0,
-    y: 262,
-    w: 900,
-    h: 209,
+    y: cvs.height-(cvs.height*0.4),
+    w: cvs.width*2,
+    h: cvs.height*0.25,
     dx: 2,
 
     draw: function () {
@@ -133,7 +136,7 @@ const fg1 = {
     },
 
     update: function () {
-        this.x = (this.x - this.dx) % (this.w / 2);
+        this.x = (this.x - this.dx) % (this.w/2);
     }
 
 };
@@ -141,17 +144,18 @@ const fg1 = {
 //second foreground object above pipes
 const fg2 = {
     x: 0,
-    y: 459,
-    w: 900,
-    h: 141,
+    y: cvs.height-(cvs.height*0.17),
+    w: cvs.width*2,
+    h: cvs.height*0.17,
     dx: 2,
 
     draw: function () {
         ctx.drawImage(fg2Image, this.x, this.y, this.w, this.h);
+        ctx.drawImage(fg2Image, this.x+this.w, this.y, this.w, this.h);
     },
 
     update: function () {
-        this.x = (this.x - this.dx) % (this.w / 2);
+        this.x = (this.x - this.dx) % (this.w/2);
     }
 
 };
