@@ -24,10 +24,11 @@ let isGameOver = false;
 const gameMusic=new Audio();
 gameMusic.volume=.2;
 gameMusic.src="assets/audio/game-music.mp3";
+gameMusic.muted=true;
 //Difficulty object
 const difficulty = {
     easy: {
-        pipesGap: 200,
+        pipesGap: cvs.width*.20,
         pipesSpeed: 1,
         distanceBetweenPipes: 350,
         planetGravity: 1.25,
@@ -35,7 +36,7 @@ const difficulty = {
         jumpHeight: 50
     },
     medium: {
-        pipesGap: 120,
+        pipesGap: cvs.width*.15,
         pipesSpeed: 3,
         distanceBetweenPipes: 100,
         planetGravity: 1.25,
@@ -78,11 +79,11 @@ let distanceBetweenPipes = difficulty.getDifficulty().distanceBetweenPipes;
 //dragon object
 const drake = {
     x: 0,
-    y: 200,
-    w: 90,
-    h: 90,
+    y: cvs.height/2,
+    w: cvs.width*.10,
+    h: cvs.width*.10,
     index: 0,
-    radius: 90,
+    radius: cvs.width*.10,
     draw: function () {
         dragonImg.src = `${drakeSrc}/${this.index}.png`;
         ctx.drawImage(dragonImg, this.x, this.y, this.w, this.h);
@@ -204,7 +205,7 @@ const pipes = {
           
             if (drake.x + drake.radius > p.x &&
                 drake.x - drake.radius < p.x + this.w &&
-                drake.y + drake.radius > p.y && drake.y < p.y + this.h) {
+                drake.y + drake.radius > p.y && drake.y+drake.radius/4 < p.y + this.h) {
 
              
                     isGameOver = true;
@@ -214,7 +215,7 @@ const pipes = {
             //Bottom pipe
             if (drake.x + drake.radius > p.x && 
                 drake.x - drake.radius < p.x + this.w &&
-                drake.y + drake.radius > bottomPipeYPos) {
+                drake.y + drake.radius-drake.radius*.02  > bottomPipeYPos) {
              
                     isGameOver = true;
 
@@ -299,5 +300,6 @@ cvs.addEventListener("keypress", (e) => {
     console.log(e.keyCode);
   }
 })
+gameMusic.muted=false;
 gameMusic.play();
 }

@@ -89,14 +89,3 @@ body {
 .btns:hover {
     transform: scale(1.1, 1.1);
 }
-
-
-
-#third-page {
-    border: 1px solid #000;
-    width: 450px;
-    height: 600px;
-}
-p {
-    font-size: 28px;
-} 

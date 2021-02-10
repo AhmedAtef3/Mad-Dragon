@@ -12,8 +12,6 @@ images[3].addEventListener("click", function() {
     localStorage.setItem("dragon","assets/img/2-dragon");
     localStorage.setItem("dragonFrames","5");
 });
-;
-});
 let bgMusic=new Audio();
 bgMusic.src="assets/audio/background.mpeg";
 bgMusic.play();
