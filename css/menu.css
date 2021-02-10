@@ -1,0 +1,60 @@
+body{
+    background-image: url("../assets/img/background-screen.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+#menu{
+    
+    
+    background-color:rgba(22, 18, 5, .2);
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 10%;
+    padding-bottom: 5%;
+   margin: auto; 
+
+margin-top: 2%;    
+    
+}
+.menu-item{
+    display: flex;
+    flex-direction: row;
+   justify-content: space-between;
+   
+}
+.menu-item p{
+    font-size: xx-large;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    padding: 5%;
+    color: white;
+}
+.menu-img{
+    width: 20%;
+    height: 20%;
+}
+.menu-item:hover{
+    background-color:rgb(22, 18, 5);
+}
+.game-control{
+    margin-left: auto;
+    margin-right: auto;
+   
+}
+#logo:hover{
+   background-color: transparent;
+}
+#bg-img{
+    min-height: 100%;
+    min-width: 1024px;
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+#back-button:hover{
+transform: scale(1.1,1.1);
+background-color: transparent;
+}
