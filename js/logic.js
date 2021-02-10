@@ -25,6 +25,8 @@ const gameMusic=new Audio();
 gameMusic.volume=.2;
 gameMusic.src="assets/audio/game-music.mp3";
 gameMusic.muted=true;
+const game_over = new Image();
+game_over.src = "assets/img/sprite.png";
 //Difficulty object
 const difficulty = {
     easy: {
@@ -99,13 +101,14 @@ const drake = {
         this.gravity();
     },
     gravity: function () {
-      
-            this.y += planetGravity;
-            
-       if(this.y+this.h>=(cvs.height-fg2.h)){
-           isGameOver=true
-          
-       }
+
+        this.y += planetGravity;
+
+        if (this.y + this.h >= (cvs.height - fg2.h)) {
+
+            isGameOver = true
+
+        }
     },
     moveUp: function () {
         if (this.y - jumpHeight > 0) {
@@ -114,100 +117,116 @@ const drake = {
     }
 
 }
+    //Game over Message object
+    const gameOver = {
+        sX: 175,
+        sY: 228,
+        w: 225,
+        h: 202,
+        x: cvs.width / 2 - 225 / 2,
+        y: 90,
 
-//background object
-const bg = {
-    x: 0,
-    y: 0,
-    w: cvs.width,
-    h: cvs.height,
 
-    draw: function () {
-        ctx.drawImage(bgImage, this.x, this.y, this.w, this.h);
-    }
-};
-
-//first foreground object under pipes
-const fg1 = {
-    x: 0,
-    y: cvs.height-(cvs.height*0.4),
-    w: cvs.width*2,
-    h: cvs.height*0.25,
-    dx: 2,
-
-    draw: function () {
-        ctx.drawImage(fg1Image, this.x, this.y, this.w, this.h);
-    },
-
-    update: function () {
-        this.x = (this.x - this.dx) % (this.w/2);
-    }
-
-};
-
-//second foreground object above pipes
-const fg2 = {
-    x: 0,
-    y: cvs.height-(cvs.height*0.17),
-    w: cvs.width*2,
-    h: cvs.height*0.17,
-    dx: 2,
-
-    draw: function () {
-        ctx.drawImage(fg2Image, this.x, this.y, this.w, this.h);
-        ctx.drawImage(fg2Image, this.x+this.w, this.y, this.w, this.h);
-    },
-
-    update: function () {
-        this.x = (this.x - this.dx) % (this.w/2);
-    }
-
-};
-
-//Pipes object
-const pipes = {
-    position: [],
-    maxYPos: -260,
-    w: 75,
-    h: 561,
-    gap: pipesGap,
-    dx: pipesSpeed,
-
-    draw: function () {
-        for (let i = 0; i < this.position.length; i++) {
-            let p = this.position[i];
-            let northY = p.y;
-            let southY = northY + this.h + this.gap;
-            //Draw north pipe
-            ctx.drawImage(northPipeImage, p.x, northY, this.w, this.h);
-            //Draw south pipe
-            ctx.drawImage(southPipeImage, p.x, southY, this.w, this.h);
-        }
-    },
-
-    update: function () {
-        //Create new pipes with random y position
-        if (frames % distanceBetweenPipes === 0) {
-            this.position.push({
-                x: cvs.width,
-                 y: Math.floor(this.maxYPos * (Math.random() + 1))
-                //y: this.maxYPos * (Math.random() + 1)
-            })
+        draw: function () {
+            ctx.drawImage(game_over, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
         }
 
-        for (let i = 0; i < this.position.length; i++) {
-            let p = this.position[i];
 
-            //Move pipes to the left
-            p.x -= this.dx;
-            let bottomPipeYPos = p.y + this.h + this.gap;
 
-          
-            if (drake.x + drake.radius > p.x &&
-                drake.x - drake.radius < p.x + this.w &&
-                drake.y + drake.radius > p.y && drake.y+drake.radius/4 < p.y + this.h) {
 
-             
+    }
+    //background object
+    const bg = {
+        x: 0,
+        y: 0,
+        w: cvs.width,
+        h: cvs.height,
+
+        draw: function () {
+            ctx.drawImage(bgImage, this.x, this.y, this.w, this.h);
+        }
+    };
+
+    //first foreground object under pipes
+    const fg1 = {
+        x: 0,
+        y: cvs.height - (cvs.height * 0.4),
+        w: cvs.width * 2,
+        h: cvs.height * 0.25,
+        dx: 2,
+
+        draw: function () {
+            ctx.drawImage(fg1Image, this.x, this.y, this.w, this.h);
+        },
+
+        update: function () {
+            this.x = (this.x - this.dx) % (this.w / 2);
+        }
+
+    };
+
+    //second foreground object above pipes
+    const fg2 = {
+        x: 0,
+        y: cvs.height - (cvs.height * 0.17),
+        w: cvs.width * 2,
+        h: cvs.height * 0.17,
+        dx: 2,
+
+        draw: function () {
+            ctx.drawImage(fg2Image, this.x, this.y, this.w, this.h);
+            ctx.drawImage(fg2Image, this.x + this.w, this.y, this.w, this.h);
+        },
+
+        update: function () {
+            this.x = (this.x - this.dx) % (this.w / 2);
+        }
+
+    };
+
+    //Pipes object
+    const pipes = {
+        position: [],
+        maxYPos: -260,
+        w: 75,
+        h: 561,
+        gap: pipesGap,
+        dx: pipesSpeed,
+
+        draw: function () {
+            for (let i = 0; i < this.position.length; i++) {
+                let p = this.position[i];
+                let northY = p.y;
+                let southY = northY + this.h + this.gap;
+                //Draw north pipe
+                ctx.drawImage(northPipeImage, p.x, northY, this.w, this.h);
+                //Draw south pipe
+                ctx.drawImage(southPipeImage, p.x, southY, this.w, this.h);
+            }
+        },
+
+        update: function () {
+            //Create new pipes with random y position
+            if (frames % distanceBetweenPipes === 0) {
+                this.position.push({
+                    x: cvs.width,
+                    y: Math.floor(this.maxYPos * (Math.random() + 1))
+                    //y: this.maxYPos * (Math.random() + 1)
+                })
+            }
+
+            for (let i = 0; i < this.position.length; i++) {
+                let p = this.position[i];
+
+                //Move pipes to the left
+                p.x -= this.dx;
+                let bottomPipeYPos = p.y + this.h + this.gap;
+
+
+                if (drake.x + drake.radius > p.x &&
+                    drake.x - drake.radius < p.x + this.w &&
+                    drake.y + drake.radius > p.y && drake.y+drake.radius*.2 < p.y + this.h) {
+
                     isGameOver = true;
 
 
@@ -215,79 +234,109 @@ const pipes = {
             //Bottom pipe
             if (drake.x + drake.radius > p.x && 
                 drake.x - drake.radius < p.x + this.w &&
-                drake.y + drake.radius-drake.radius*.02  > bottomPipeYPos) {
+                drake.y + drake.radius-drake.radius*.1  > bottomPipeYPos) {
              
                     isGameOver = true;
 
 
-            }
+
+                }
 
 
 
 
-            //Delete pipes that reached the end of canvas from array
-            if (p.x + this.w <= 0) {
-                this.position.shift();
-                //Increment Score
-                score.value += 1;
-                score.best = Math.max(score.value, score.best);
-                localStorage.setItem("best", score.best);
+                //Delete pipes that reached the end of canvas from array
+                if (p.x + this.w <= 0) {
+                    this.position.shift();
+                    //Increment Score
+                    score.value += 1;
+                    score.best = Math.max(score.value, score.best);
+                    localStorage.setItem("best", score.best);
+                }
             }
         }
     }
-}
 
-//South pipe object
-
+    //South pipe object
 
 
-//Score
-const score = {
 
-    best: parseInt(localStorage.getItem("best")) || 0,
-    value: 0,
+    //Score
+    const score = {
 
-    draw: function () {
+        best: parseInt(localStorage.getItem("best")) || 0,
+        value: 0,
 
-        ctx.fillStyle = "#FFF";
-        ctx.strokeStyle = "#000";
-        ctx.lineWidth = 1;
-        ctx.font = "35px arial";
-        ctx.fillText(this.value, cvs.width / 2, 50);
-        ctx.strokeText(this.value, cvs.width / 2, 50);
+        draw: function () {
+            
+            if (!isGameOver) {
+
+                ctx.fillStyle = "#FFF";
+                ctx.strokeStyle = "#000";
+               
+                ctx.lineWidth = 1;
+                ctx.font = "35px arial";
+                ctx.fillText(this.value, cvs.width / 2, 50);
+                ctx.strokeText(this.value, cvs.width / 2, 50);
+            }
+            
+
+        },
+        //draw score & best values after game over
+        drawScoreAfterGameOver : function()
+        {
+            ctx.fillStyle = "#000";
+            ctx.strokeStyle = "#000";
+             //Score value
+             ctx.font = "25px arial";
+             ctx.fillText(this.value, 740, 186);
+            ctx.strokeText(this.value, 740, 186);     
+             
+            //best value
+            ctx.fillText(this.best, 740, 228);
+            ctx.strokeText(this.best, 740, 228);
+       
+
+        }
 
     }
 
-}
+    //Draw all canvas elements
+    function draw() {
+        bg.draw();
+        fg1.draw();
+        drake.draw();
+        pipes.draw();
+        fg2.draw();
+        score.draw();
 
-//Draw all canvas elements
-function draw() {
-    bg.draw();
-    fg1.draw();
-    drake.draw();
-    pipes.draw();
-    fg2.draw();
-    score.draw();
-}
-
-function update() {
-    fg1.update();
-    fg2.update();
-    drake.update();
-    pipes.update();
-}
-
-function loop() {
-    if (!isGameOver) {
-        update();
-        draw();
-        frames++;
-        requestAnimationFrame(loop);
-      
-    }else{
-      gameMusic.pause();  
     }
-}
+
+    function update() {
+        fg1.update();
+        fg2.update();
+        drake.update();
+        pipes.update();
+    }
+
+   
+
+
+    function loop() {
+        if (!isGameOver) {
+            update();
+            draw();
+            frames++;
+            requestAnimationFrame(loop);
+
+        } else {
+            gameOver.draw();
+            score.drawScoreAfterGameOver();
+            gameMusic.pause();
+
+        }
+    }
+
 loop();
 cvs.addEventListener("click", () => {
     drake.moveUp();
