@@ -1,148 +1,179 @@
 //Select canvas and context
-window.onload=function(){
-const cvs = document.getElementById("game-canvas");
-const ctx = cvs.getContext("2d");
+window.onload = function () {
+    const cvs = document.getElementById("game-canvas");
+    const ctx = cvs.getContext("2d");
 
-cvs.height = window.innerHeight;
-cvs.width = window.innerWidth;
+    cvs.height = window.innerHeight;
+    cvs.width = window.innerWidth;
 
-//Creat game variables and constants
-let frames = 0;
-//Background images
-const bgImage = new Image();
-bgImage.src = "assets/img/0-bg.png";
-const fg1Image = new Image();
-fg1Image.src = "assets/img/0-fg.png";
-const fg2Image = new Image();
-fg2Image.src = "assets/img/1-fg.png";
-//Pipe images
-const northPipeImage = new Image();
-northPipeImage.src = "assets/img/np.png";
-const southPipeImage = new Image();
-southPipeImage.src = "assets/img/sp.png";
-let isGameOver = false;
-const gameMusic=new Audio();
-gameMusic.volume=.2;
-gameMusic.src="assets/audio/game-music.mp3";
-gameMusic.muted=true;
-const game_over = new Image();
-game_over.src = "assets/img/game-over/gameover.png";
-const game_overHome = new Image();
-game_overHome.src = "assets/img/game-over/1-go-home-btn.png";
-const game_overRestart = new Image();
-game_overRestart.src = "assets/img/game-over/2-go-restart-btn.png";
-//Difficulty object
-const difficulty = {
-    easy: {
-        pipesGap: cvs.width*.20,
-        pipesSpeed: 1,
-        distanceBetweenPipes: 350,
-        planetGravity: 1.25,
-        flappingSpeed: 10,
-        jumpHeight: 50
-    },
-    medium: {
-        pipesGap: cvs.width*.15,
-        pipesSpeed: 3,
-        distanceBetweenPipes: 100,
-        planetGravity: 1.25,
-        flappingSpeed: 7,
-        jumpHeight: 50
-    },
-    hard: {
-        pipesGap: 150,
-        pipesSpeed: 4,
-        distanceBetweenPipes: 80,
-        planetGravity: 3,
-        flappingSpeed: 4,
-        jumpHeight: 80
-    },
+    //Creat game variables and constants
+    let frames = 0;
+    //Background images
+    const bgImage = new Image();
+    bgImage.src = "assets/img/0-bg.png";
+    const fg1Image = new Image();
+    fg1Image.src = "assets/img/0-fg.png";
+    const fg2Image = new Image();
+    fg2Image.src = "assets/img/1-fg.png";
+    //Pipe images
+    const northPipeImage = new Image();
+    northPipeImage.src = "assets/img/np.png";
+    const southPipeImage = new Image();
+    southPipeImage.src = "assets/img/sp.png";
+    let isGameOver = false;
+    const gameMusic = new Audio();
+    gameMusic.volume = .2;
+    gameMusic.src = "assets/audio/game-music.mp3";
+    gameMusic.muted = true;
+    const game_over = new Image();
+    game_over.src = "assets/img/game-over/gameover.png";
+    const game_overHome = new Image();
+    game_overHome.src = "assets/img/game-over/1-go-home-btn.png";
+    const game_overRestart = new Image();
+    game_overRestart.src = "assets/img/game-over/2-go-restart-btn.png";
+    //Difficulty object
+    const difficulty = {
+        easy: {
+            pipesGap: cvs.width * .20,
+            pipesSpeed: 1,
+            distanceBetweenPipes: 350,
+            planetGravity: 1.25,
+            flappingSpeed: 10,
+            jumpHeight: 50
+        },
+        medium: {
+            pipesGap: cvs.width * .15,
+            pipesSpeed: 3,
+            distanceBetweenPipes: 100,
+            planetGravity: 1.25,
+            flappingSpeed: 7,
+            jumpHeight: 50
+        },
+        hard: {
+            pipesGap: 150,
+            pipesSpeed: 4,
+            distanceBetweenPipes: 80,
+            planetGravity: 3,
+            flappingSpeed: 4,
+            jumpHeight: 80
+        },
 
-    getDifficulty: function () {
-        switch (localStorage.difficulty) {
-            case "easy":
-                return this.easy;
-            case "medium":
-                return this.medium;
-            case "hard":
-                return this.hard;
-        }
-    }
-}
-
-//Drake variables
-let planetGravity = difficulty.getDifficulty().planetGravity;
-let dragonImg = new Image();
-let drakeFPS = parseInt(localStorage.dragonFrames);
-let drakeSrc = localStorage.dragon;
-let flappingSpeed = difficulty.getDifficulty().flappingSpeed;
-let jumpHeight = difficulty.getDifficulty().jumpHeight;
-//Difficulty Variables
-let pipesGap = difficulty.getDifficulty().pipesGap;
-let pipesSpeed = difficulty.getDifficulty().pipesSpeed;
-let distanceBetweenPipes = difficulty.getDifficulty().distanceBetweenPipes;
-
-//dragon object
-const drake = {
-    x: 0,
-    y: cvs.height/2,
-    w: cvs.width*.10,
-    h: cvs.width*.10,
-    index: 0,
-    radius: cvs.width*.10,
-    draw: function () {
-        dragonImg.src = `${drakeSrc}/${this.index}.png`;
-        ctx.drawImage(dragonImg, this.x, this.y, this.w, this.h);
-    },
-    update: function () {
-        if (frames % flappingSpeed == 0) {
-            if (this.index < drakeFPS) {
-                this.index++;
-            } else {
-                this.index = 0;
+        getDifficulty: function () {
+            switch (localStorage.difficulty) {
+                case "easy":
+                    return this.easy;
+                case "medium":
+                    return this.medium;
+                case "hard":
+                    return this.hard;
             }
         }
-        this.gravity();
-    },
-    gravity: function () {
-
-        this.y += planetGravity;
-
-        if (this.y + this.h >= (cvs.height - fg2.h)) {
-
-            isGameOver = true
-
-        }
-    },
-    moveUp: function () {
-        if (this.y - jumpHeight > 0) {
-            this.y -= jumpHeight;
-        }
     }
 
-}
-    //Game over Message object
-    const gameOver = {
-        x: cvs.width*0.36,
-        y: cvs.height*0.26,
-        w: cvs.width*0.28,
-        h: cvs.height*0.44,
-        hx: cvs.width*0.4,
-        hy: cvs.height*0.675,
-        hw: cvs.width*0.09,
-        hh: cvs.height*0.07,
-        rx: cvs.width*0.51,
-        ry: cvs.height*0.675,
-        rw: cvs.width*0.09,
-        rh: cvs.height*0.07,
+    //Drake variables
+    let planetGravity = difficulty.getDifficulty().planetGravity;
+    let dragonImg = new Image();
+    let drakeFPS = parseInt(localStorage.dragonFrames);
+    let drakeSrc = localStorage.dragon;
+    let flappingSpeed = difficulty.getDifficulty().flappingSpeed;
+    let jumpHeight = difficulty.getDifficulty().jumpHeight;
+    //Difficulty Variables
+    let pipesGap = difficulty.getDifficulty().pipesGap;
+    let pipesSpeed = difficulty.getDifficulty().pipesSpeed;
+    let distanceBetweenPipes = difficulty.getDifficulty().distanceBetweenPipes;
+
+    //dragon object
+    const drake = {
+        x: 0,
+        y: cvs.height / 2,
+        w: cvs.width * .10,
+        h: cvs.width * .10,
+        index: 0,
+        radius: cvs.width * .10,
+        draw: function () {
+            dragonImg.src = `${drakeSrc}/${this.index}.png`;
+            ctx.drawImage(dragonImg, this.x, this.y, this.w, this.h);
+        },
+        update: function () {
+            if (frames % flappingSpeed == 0) {
+                if (this.index < drakeFPS) {
+                    this.index++;
+                } else {
+                    this.index = 0;
+                }
+            }
+            this.gravity();
+        },
+        gravity: function () {
+
+            this.y += planetGravity;
+
+            if (this.y + this.h >= (cvs.height - fg2.h)) {
+
+                isGameOver = true
+
+            }
+        },
+        moveUp: function () {
+            if (this.y - jumpHeight > 0) {
+                this.y -= jumpHeight;
+            }
+        }
+
+    }
+
+
+    //Restart Button in game over message
+    const restart = {
+        rx: cvs.width * 0.51,
+        ry: cvs.height * 0.675,
+        rw: cvs.width * 0.09,
+        rh: cvs.height * 0.07,
 
         draw: function () {
-            ctx.drawImage(game_over, this.x, this.y, this.w, this.h);
-            ctx.drawImage(game_overHome, this.hx, this.hy, this.hw, this.hh);
+
             ctx.drawImage(game_overRestart, this.rx, this.ry, this.rw, this.rh);
         }
 
+
+
     }
+
+    //Home Button in game over message
+    const home = {
+        hx: cvs.width * 0.4,
+        hy: cvs.height * 0.675,
+        hw: cvs.width * 0.09,
+        hh: cvs.height * 0.07,
+
+        draw: function () {
+            ctx.drawImage(game_overHome, this.hx, this.hy, this.hw, this.hh);
+
+        }
+
+
+
+    }
+
+    //Game over Message object
+    const gameOver = {
+        x: cvs.width * 0.36,
+        y: cvs.height * 0.26,
+        w: cvs.width * 0.28,
+        h: cvs.height * 0.44,
+
+
+
+        draw: function () {
+            ctx.drawImage(game_over, this.x, this.y, this.w, this.h);
+            home.draw();
+            restart.draw();
+        }
+
+    }
+
+
+
     //background object
     const bg = {
         x: 0,
@@ -233,17 +264,17 @@ const drake = {
 
                 if (drake.x + drake.radius > p.x &&
                     drake.x - drake.radius < p.x + this.w &&
-                    drake.y + drake.radius > p.y && drake.y+drake.radius*.2 < p.y + this.h) {
+                    drake.y + drake.radius > p.y && drake.y + drake.radius * .2 < p.y + this.h) {
 
                     isGameOver = true;
 
 
-            }
-            //Bottom pipe
-            if (drake.x + drake.radius > p.x && 
-                drake.x - drake.radius < p.x + this.w &&
-                drake.y + drake.radius-drake.radius*.1  > bottomPipeYPos) {
-             
+                }
+                //Bottom pipe
+                if (drake.x + drake.radius > p.x &&
+                    drake.x - drake.radius < p.x + this.w &&
+                    drake.y + drake.radius - drake.radius * .1 > bottomPipeYPos) {
+
                     isGameOver = true;
 
 
@@ -276,34 +307,33 @@ const drake = {
         value: 0,
 
         draw: function () {
-            
+
             if (!isGameOver) {
 
                 ctx.fillStyle = "#FFF";
                 ctx.strokeStyle = "#000";
-               
+
                 ctx.lineWidth = 1;
                 ctx.font = "35px arial";
                 ctx.fillText(this.value, cvs.width / 2, 50);
                 ctx.strokeText(this.value, cvs.width / 2, 50);
             }
-            
+
 
         },
         //draw score & best values after game over
-        drawScoreAfterGameOver : function()
-        {
+        drawScoreAfterGameOver: function () {
             ctx.fillStyle = "#000";
             ctx.strokeStyle = "#000";
-             //Score value
-             ctx.font = "25px arial";
-             ctx.fillText(this.value, 740, 186);
-            ctx.strokeText(this.value, 740, 186);     
-             
+            //Score value
+            ctx.font = "25px arial";
+            ctx.fillText(this.value, 740, 186);
+            ctx.strokeText(this.value, 740, 186);
+
             //best value
             ctx.fillText(this.best, 740, 228);
             ctx.strokeText(this.best, 740, 228);
-       
+
 
         }
 
@@ -327,7 +357,7 @@ const drake = {
         pipes.update();
     }
 
-   
+
 
 
     function loop() {
@@ -345,18 +375,46 @@ const drake = {
         }
     }
 
-loop();
-cvs.addEventListener("click", () => {
-    drake.moveUp();
-});
+    loop();
+    cvs.addEventListener("click", (evt) => {
+        drake.moveUp();
+        //Click on restart 
+        if (isGameOver) {
+            let rect = cvs.getBoundingClientRect();
+            let clickX = evt.clientX - rect.left;
+            let clickY = evt.clientY - rect.top;
 
-cvs.addEventListener("keypress", (e) => {
-  if(e.keyCode===32||e.keyCode===119){
-      drake.moveUp();
-  }else{
-    console.log(e.keyCode);
-  }
-})
-gameMusic.muted=false;
-gameMusic.play();
+            //Check if we click on restart button
+            if (clickX >= restart.rx && clickX <= restart.rx + restart.rw && clickY >= restart.ry &&
+                clickY <= restart.ry + restart.rh) {
+
+                location.reload();
+
+            }
+            
+            //Check if we click on home button
+            if (clickX >= home.hx && clickX <= home.hx + home.hw && clickY >= home.hy &&
+                clickY <= home.hy + home.hh) {
+
+                    window.open("first-page.html","_self")
+
+            } 
+
+
+
+        }
+
+    });
+
+    cvs.addEventListener("keypress", (e) => {
+        if (e.keyCode === 32 || e.keyCode === 119) {
+            drake.moveUp();
+        } else {
+            console.log(e.keyCode);
+        }
+    })
+    //gameMusic.muted=false;
+    //gameMusic.play();
 }
+
+
