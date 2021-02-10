@@ -26,7 +26,11 @@ gameMusic.volume=.2;
 gameMusic.src="assets/audio/game-music.mp3";
 gameMusic.muted=true;
 const game_over = new Image();
-game_over.src = "assets/img/sprite.png";
+game_over.src = "assets/img/game-over/gameover.png";
+const game_overHome = new Image();
+game_overHome.src = "assets/img/game-over/1-go-home-btn.png";
+const game_overRestart = new Image();
+game_overRestart.src = "assets/img/game-over/2-go-restart-btn.png";
 //Difficulty object
 const difficulty = {
     easy: {
@@ -119,20 +123,24 @@ const drake = {
 }
     //Game over Message object
     const gameOver = {
-        sX: 175,
-        sY: 228,
-        w: 225,
-        h: 202,
-        x: cvs.width / 2 - 225 / 2,
-        y: 90,
-
+        x: cvs.width*0.36,
+        y: cvs.height*0.26,
+        w: cvs.width*0.28,
+        h: cvs.height*0.44,
+        hx: cvs.width*0.4,
+        hy: cvs.height*0.675,
+        hw: cvs.width*0.09,
+        hh: cvs.height*0.07,
+        rx: cvs.width*0.51,
+        ry: cvs.height*0.675,
+        rw: cvs.width*0.09,
+        rh: cvs.height*0.07,
 
         draw: function () {
-            ctx.drawImage(game_over, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
+            ctx.drawImage(game_over, this.x, this.y, this.w, this.h);
+            ctx.drawImage(game_overHome, this.hx, this.hy, this.hw, this.hh);
+            ctx.drawImage(game_overRestart, this.rx, this.ry, this.rw, this.rh);
         }
-
-
-
 
     }
     //background object
