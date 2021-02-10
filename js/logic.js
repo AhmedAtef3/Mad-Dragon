@@ -1,4 +1,5 @@
 //Select canvas and context
+window.onload=function(){
 const cvs = document.getElementById("game-canvas");
 const ctx = cvs.getContext("2d");
 
@@ -20,7 +21,9 @@ northPipeImage.src = "assets/img/np.png";
 const southPipeImage = new Image();
 southPipeImage.src = "assets/img/sp.png";
 let isGameOver = false;
-
+const gameMusic=new Audio();
+gameMusic.volume=.2;
+gameMusic.src="assets/audio/game-music.mp3";
 //Difficulty object
 const difficulty = {
     easy: {
@@ -280,9 +283,21 @@ function loop() {
         frames++;
         requestAnimationFrame(loop);
       
+    }else{
+      gameMusic.pause();  
     }
 }
 loop();
 cvs.addEventListener("click", () => {
     drake.moveUp();
 });
+
+cvs.addEventListener("keypress", (e) => {
+  if(e.keyCode===32||e.keyCode===119){
+      drake.moveUp();
+  }else{
+    console.log(e.keyCode);
+  }
+})
+gameMusic.play();
+}
