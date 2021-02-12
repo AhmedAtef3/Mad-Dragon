@@ -323,18 +323,13 @@ window.onload = function () {
         },
         //draw score & best values after game over
         drawScoreAfterGameOver: function () {
-            ctx.fillStyle = "#000";
-            ctx.strokeStyle = "#000";
+            ctx.fillStyle = "#fff";
             //Score value
-            ctx.font = "25px arial";
-            ctx.fillText(this.value, 740, 186);
-            ctx.strokeText(this.value, 740, 186);
+            ctx.font = "25px helvetica #fff";
+            ctx.fillText(this.value, cvs.width*0.43, cvs.height*0.575);
 
             //best value
-            ctx.fillText(this.best, 740, 228);
-            ctx.strokeText(this.best, 740, 228);
-
-
+            ctx.fillText(this.best, cvs.width*0.53, cvs.height*0.575);
         }
 
     }

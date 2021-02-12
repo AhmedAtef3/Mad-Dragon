@@ -59,11 +59,19 @@ body {
     width: 30%;
 }
 
+#back-btn {
+    position: absolute;
+    display: inline;
+    left: 3%;
+    top: 85%;
+    width: 17%;
+}
+
 #dragon-1 {
     position: absolute;
     display: inline;
     left: 6%;
-    top: 55%;
+    top: 52%;
     width: 25%;
     margin: auto;
 }
@@ -72,7 +80,7 @@ body {
     position: absolute;
     display: inline;
     left: 35%;
-    top: 55%;
+    top: 52%;
     width: 25%;
     margin: auto;
 }
@@ -81,7 +89,7 @@ body {
     position: absolute;
     display: inline;
     left: 64%;
-    top: 55%;
+    top: 52%;
     width: 25%;
     margin: auto;
 }
