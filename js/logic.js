@@ -22,7 +22,7 @@ window.onload = function () {
     southPipeImage.src = "assets/img/sp.png";
     let isGameOver = false;
     const gameMusic = new Audio();
-    gameMusic.volume = .2;
+   // gameMusic.volume = .2;
     gameMusic.src = "assets/audio/game-music.mp3";
     gameMusic.muted = true;
     const game_over = new Image();
@@ -31,6 +31,12 @@ window.onload = function () {
     game_overHome.src = "assets/img/game-over/1-go-home-btn.png";
     const game_overRestart = new Image();
     game_overRestart.src = "assets/img/game-over/2-go-restart-btn.png";
+    const deathSound=new Audio();
+    const coinSound=new Audio();
+    deathSound.src="assets/audio/death-sound.mp3";
+    coinSound.src="assets/audio/coin-sound.mp3";
+    deathSound.muted=true;
+    coinSound.muted=true;
     //Difficulty object
     const difficulty = {
         easy: {
@@ -290,6 +296,9 @@ window.onload = function () {
                     //Increment Score
                     score.value += 1;
                     score.best = Math.max(score.value, score.best);
+                    if(score.best==score.value){
+                        coinSound.play();
+                    }
                     localStorage.setItem("best", score.best);
                 }
             }
@@ -366,6 +375,7 @@ window.onload = function () {
             gameOver.draw();
             score.drawScoreAfterGameOver();
             gameMusic.pause();
+            deathSound.play();
 
         }
     }
@@ -408,8 +418,11 @@ window.onload = function () {
             console.log(e.keyCode);
         }
     })
-    //gameMusic.muted=false;
-    //gameMusic.play();
+    gameMusic.muted=false;
+    deathSound.muted=false;
+    coinSound.muted=false;
+
+    gameMusic.play();
 }
 
 
