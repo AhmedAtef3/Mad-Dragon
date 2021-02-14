@@ -35,7 +35,8 @@ margin-top: 2%;
     height: 20%;
 }
 .menu-item:hover{
-    background-color:rgb(22, 18, 5);
+    background-color:rgba(137, 67, 104,.7);
+  
 }
 .game-control{
     margin-left: auto;
