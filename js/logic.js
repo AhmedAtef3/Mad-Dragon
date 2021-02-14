@@ -201,8 +201,6 @@ window.onload = function () {
         w: cvs.width * 0.28,
         h: cvs.height * 0.44,
 
-
-
         draw: function () {
             ctx.drawImage(game_over, this.x, this.y, this.w, this.h);
             home.draw();
@@ -315,9 +313,6 @@ window.onload = function () {
                     drake.y + drake.radius - drake.radius * .1 > bottomPipeYPos) {
 
                     isGameOver = true;
-
-
-
                 }
 
 
@@ -372,7 +367,7 @@ window.onload = function () {
             ctx.fillText(this.value, cvs.width * 0.43, cvs.height * 0.575);
 
             //best value
-            ctx.fillText(this.best, cvs.width * 0.53, cvs.height * 0.575);
+            ctx.fillText(this.best, cvs.width * 0.55, cvs.height * 0.575);
         }
 
     }
