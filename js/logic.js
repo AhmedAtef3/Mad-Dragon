@@ -25,6 +25,7 @@ window.onload = function () {
    // gameMusic.volume = .2;
     gameMusic.src = "assets/audio/game-music.mp3";
     gameMusic.muted = true;
+    gameMusic.loop=true;
     const game_over = new Image();
     game_over.src = "assets/img/game-over/gameover.png";
     const game_overHome = new Image();
@@ -37,10 +38,11 @@ window.onload = function () {
     coinSound.src="assets/audio/coin-sound.mp3";
     deathSound.muted=true;
     coinSound.muted=true;
+    let isBestReached=false;
     //Difficulty object
     const difficulty = {
         easy: {
-            pipesGap: cvs.width * .20,
+            pipesGap: cvs.width * .2,
             pipesSpeed: 1,
             distanceBetweenPipes: 350,
             planetGravity: 1.25,
@@ -48,20 +50,20 @@ window.onload = function () {
             jumpHeight: 50
         },
         medium: {
-            pipesGap: cvs.width * .15,
-            pipesSpeed: 3,
+            pipesGap: cvs.width * .2,
+            pipesSpeed:3,
             distanceBetweenPipes: 100,
-            planetGravity: 1.25,
+            planetGravity: 1.5,
             flappingSpeed: 7,
-            jumpHeight: 50
+            jumpHeight:60
         },
         hard: {
-            pipesGap: 150,
+            pipesGap: cvs.width * .2,
             pipesSpeed: 4,
             distanceBetweenPipes: 80,
             planetGravity: 3,
             flappingSpeed: 4,
-            jumpHeight: 80
+            jumpHeight: 100
         },
 
         getDifficulty: function () {
@@ -91,7 +93,7 @@ window.onload = function () {
     //dragon object
     const drake = {
         x: 0,
-        y: cvs.height / 2,
+        y: cvs.height *.30,
         w: cvs.width * .10,
         h: cvs.width * .10,
         index: 0,
@@ -296,8 +298,9 @@ window.onload = function () {
                     //Increment Score
                     score.value += 1;
                     score.best = Math.max(score.value, score.best);
-                    if(score.best==score.value){
+                    if(score.best==score.value&&!isBestReached){
                         coinSound.play();
+                        isBestReached=true;
                     }
                     localStorage.setItem("best", score.best);
                 }
@@ -401,7 +404,7 @@ window.onload = function () {
             if (clickX >= home.hx && clickX <= home.hx + home.hw && clickY >= home.hy &&
                 clickY <= home.hy + home.hh) {
 
-                    window.open("first-page.html","_self")
+                    window.open("first-page.html","_self");
 
             } 
 
