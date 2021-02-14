@@ -22,23 +22,23 @@ window.onload = function () {
     southPipeImage.src = "assets/img/sp.png";
     let isGameOver = false;
     const gameMusic = new Audio();
-   // gameMusic.volume = .2;
+    // gameMusic.volume = .2;
     gameMusic.src = "assets/audio/game-music.mp3";
     gameMusic.muted = true;
-    gameMusic.loop=true;
+    gameMusic.loop = true;
     const game_over = new Image();
     game_over.src = "assets/img/game-over/gameover.png";
     const game_overHome = new Image();
     game_overHome.src = "assets/img/game-over/1-go-home-btn.png";
     const game_overRestart = new Image();
     game_overRestart.src = "assets/img/game-over/2-go-restart-btn.png";
-    const deathSound=new Audio();
-    const coinSound=new Audio();
-    deathSound.src="assets/audio/death-sound.mp3";
-    coinSound.src="assets/audio/coin-sound.mp3";
-    deathSound.muted=true;
-    coinSound.muted=true;
-    let isBestReached=false;
+    const deathSound = new Audio();
+    const coinSound = new Audio();
+    deathSound.src = "assets/audio/death-sound.mp3";
+    coinSound.src = "assets/audio/coin-sound.mp3";
+    deathSound.muted = true;
+    coinSound.muted = true;
+    let isBestReached = false;
     //Difficulty object
     const difficulty = {
         easy: {
@@ -51,11 +51,11 @@ window.onload = function () {
         },
         medium: {
             pipesGap: cvs.width * .2,
-            pipesSpeed:3,
+            pipesSpeed: 3,
             distanceBetweenPipes: 100,
             planetGravity: 1.5,
             flappingSpeed: 7,
-            jumpHeight:60
+            jumpHeight: 60
         },
         hard: {
             pipesGap: cvs.width * .2,
@@ -90,16 +90,33 @@ window.onload = function () {
     let pipesSpeed = difficulty.getDifficulty().pipesSpeed;
     let distanceBetweenPipes = difficulty.getDifficulty().distanceBetweenPipes;
 
+    const drakeSrcFile = {
+        dragon0: ["assets/img/0-dragon/0.png", "assets/img/0-dragon/1.png", "assets/img/0-dragon/2.png", "assets/img/0-dragon/3.png", "assets/img/0-dragon/4.png", "assets/img/0-dragon/5.png"],
+        dragon1: ["assets/img/1-dragon/0.png", "assets/img/1-dragon/1.png", "assets/img/1-dragon/2.png", "assets/img/1-dragon/3.png", "assets/img/1-dragon/4.png", "assets/img/1-dragon/5.png"],
+        dragon2: ["assets/img/2-dragon/0.png", "assets/img/2-dragon/1.png", "assets/img/2-dragon/2.png", "assets/img/2-dragon/3.png", "assets/img/2-dragon/4.png", "assets/img/2-dragon/5.png"],
+        getDragonSrc: function () {
+            switch (localStorage.dragon) {
+                case "assets/img/0-dragon":
+                    console.log("here");
+                    return this.dragon0;
+                case "assets/img/1-dragon":
+                    return this.dragon1;
+                case "assets/img/2-dragon":
+                    return this.dragon2;
+            }
+        }
+    }
     //dragon object
     const drake = {
         x: 0,
-        y: cvs.height *.30,
+        y: cvs.height * .30,
         w: cvs.width * .10,
         h: cvs.width * .10,
         index: 0,
         radius: cvs.width * .10,
         draw: function () {
-            dragonImg.src = `${drakeSrc}/${this.index}.png`;
+            // dragonImg.src = `${drakeSrc}/${this.index}.png`;
+            dragonImg.src = drakeSrcFile.getDragonSrc()[this.index];
             ctx.drawImage(dragonImg, this.x, this.y, this.w, this.h);
         },
         update: function () {
@@ -298,9 +315,9 @@ window.onload = function () {
                     //Increment Score
                     score.value += 1;
                     score.best = Math.max(score.value, score.best);
-                    if(score.best==score.value&&!isBestReached){
+                    if (score.best == score.value && !isBestReached) {
                         coinSound.play();
-                        isBestReached=true;
+                        isBestReached = true;
                     }
                     localStorage.setItem("best", score.best);
                 }
@@ -338,10 +355,10 @@ window.onload = function () {
             ctx.fillStyle = "#fff";
             //Score value
             ctx.font = "25px helvetica #fff";
-            ctx.fillText(this.value, cvs.width*0.43, cvs.height*0.575);
+            ctx.fillText(this.value, cvs.width * 0.43, cvs.height * 0.575);
 
             //best value
-            ctx.fillText(this.best, cvs.width*0.53, cvs.height*0.575);
+            ctx.fillText(this.best, cvs.width * 0.53, cvs.height * 0.575);
         }
 
     }
@@ -399,14 +416,14 @@ window.onload = function () {
                 location.reload();
 
             }
-            
+
             //Check if we click on home button
             if (clickX >= home.hx && clickX <= home.hx + home.hw && clickY >= home.hy &&
                 clickY <= home.hy + home.hh) {
 
-                    window.open("index.html","_self");
+                window.open("index.html", "_self");
 
-            } 
+            }
 
 
 
@@ -421,9 +438,9 @@ window.onload = function () {
             console.log(e.keyCode);
         }
     })
-    gameMusic.muted=false;
-    deathSound.muted=false;
-    coinSound.muted=false;
+    gameMusic.muted = false;
+    deathSound.muted = false;
+    coinSound.muted = false;
 
     gameMusic.play();
 }
