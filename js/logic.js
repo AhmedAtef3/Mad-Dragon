@@ -404,7 +404,7 @@ window.onload = function () {
             if (clickX >= home.hx && clickX <= home.hx + home.hw && clickY >= home.hy &&
                 clickY <= home.hy + home.hh) {
 
-                    window.open("first-page.html","_self");
+                    window.open("index.html","_self");
 
             } 
 
