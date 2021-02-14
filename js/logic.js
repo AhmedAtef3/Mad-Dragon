@@ -1,4 +1,5 @@
 //Select canvas and context
+this.addEventListener("DOMContentLoaded", preloadImages, true);
 const drakeSrcFile = {
     dragon0: ["assets/img/0-dragon/0.png", "assets/img/0-dragon/1.png", "assets/img/0-dragon/2.png", "assets/img/0-dragon/3.png", "assets/img/0-dragon/4.png", "assets/img/0-dragon/5.png"],
     dragon1: ["assets/img/1-dragon/0.png", "assets/img/1-dragon/1.png", "assets/img/1-dragon/2.png", "assets/img/1-dragon/3.png", "assets/img/1-dragon/4.png", "assets/img/1-dragon/5.png"],
@@ -15,6 +16,18 @@ const drakeSrcFile = {
         }
     }
 };
+ 
+function preloadImages(e) {
+  
+
+    var imageArray = drakeSrcFile.getDragonSrc();
+ 
+    for (var i = 0; i < imageArray.length; i++) {
+        var tempImage = new Image();
+        tempImage.src = imageArray[i];
+    }
+}
+
 window.onload = function () {
     const cvs = document.getElementById("game-canvas");
     const ctx = cvs.getContext("2d");
