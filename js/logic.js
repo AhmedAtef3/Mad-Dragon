@@ -1,4 +1,20 @@
 //Select canvas and context
+const drakeSrcFile = {
+    dragon0: ["assets/img/0-dragon/0.png", "assets/img/0-dragon/1.png", "assets/img/0-dragon/2.png", "assets/img/0-dragon/3.png", "assets/img/0-dragon/4.png", "assets/img/0-dragon/5.png"],
+    dragon1: ["assets/img/1-dragon/0.png", "assets/img/1-dragon/1.png", "assets/img/1-dragon/2.png", "assets/img/1-dragon/3.png", "assets/img/1-dragon/4.png", "assets/img/1-dragon/5.png"],
+    dragon2: ["assets/img/2-dragon/0.png", "assets/img/2-dragon/1.png", "assets/img/2-dragon/2.png", "assets/img/2-dragon/3.png", "assets/img/2-dragon/4.png", "assets/img/2-dragon/5.png"],
+    getDragonSrc: function () {
+        switch (localStorage.dragon) {
+            case "assets/img/0-dragon":
+                console.log("here");
+                return this.dragon0;
+            case "assets/img/1-dragon":
+                return this.dragon1;
+            case "assets/img/2-dragon":
+                return this.dragon2;
+        }
+    }
+};
 window.onload = function () {
     const cvs = document.getElementById("game-canvas");
     const ctx = cvs.getContext("2d");
@@ -90,22 +106,7 @@ window.onload = function () {
     let pipesSpeed = difficulty.getDifficulty().pipesSpeed;
     let distanceBetweenPipes = difficulty.getDifficulty().distanceBetweenPipes;
 
-    const drakeSrcFile = {
-        dragon0: ["assets/img/0-dragon/0.png", "assets/img/0-dragon/1.png", "assets/img/0-dragon/2.png", "assets/img/0-dragon/3.png", "assets/img/0-dragon/4.png", "assets/img/0-dragon/5.png"],
-        dragon1: ["assets/img/1-dragon/0.png", "assets/img/1-dragon/1.png", "assets/img/1-dragon/2.png", "assets/img/1-dragon/3.png", "assets/img/1-dragon/4.png", "assets/img/1-dragon/5.png"],
-        dragon2: ["assets/img/2-dragon/0.png", "assets/img/2-dragon/1.png", "assets/img/2-dragon/2.png", "assets/img/2-dragon/3.png", "assets/img/2-dragon/4.png", "assets/img/2-dragon/5.png"],
-        getDragonSrc: function () {
-            switch (localStorage.dragon) {
-                case "assets/img/0-dragon":
-                    console.log("here");
-                    return this.dragon0;
-                case "assets/img/1-dragon":
-                    return this.dragon1;
-                case "assets/img/2-dragon":
-                    return this.dragon2;
-            }
-        }
-    }
+   
     //dragon object
     const drake = {
         x: 0,
