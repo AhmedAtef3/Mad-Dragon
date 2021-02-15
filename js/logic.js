@@ -4,7 +4,7 @@ const drakeSrcFile = {
     dragon0: ["assets/img/0-dragon/0.png", "assets/img/0-dragon/1.png", "assets/img/0-dragon/2.png", "assets/img/0-dragon/3.png", "assets/img/0-dragon/4.png", "assets/img/0-dragon/5.png"],
     dragon1: ["assets/img/1-dragon/0.png", "assets/img/1-dragon/1.png", "assets/img/1-dragon/2.png", "assets/img/1-dragon/3.png", "assets/img/1-dragon/4.png", "assets/img/1-dragon/5.png"],
     dragon2: ["assets/img/2-dragon/0.png", "assets/img/2-dragon/1.png", "assets/img/2-dragon/2.png", "assets/img/2-dragon/3.png", "assets/img/2-dragon/4.png", "assets/img/2-dragon/5.png"],
-    getDragonSrc: function () {
+    getDragonSrc: function() {
         switch (localStorage.dragon) {
             case "assets/img/0-dragon":
                 console.log("here");
@@ -16,19 +16,19 @@ const drakeSrcFile = {
         }
     }
 };
- 
+
 function preloadImages(e) {
-  
+
 
     var imageArray = drakeSrcFile.getDragonSrc();
- 
+
     for (var i = 0; i < imageArray.length; i++) {
         var tempImage = new Image();
         tempImage.src = imageArray[i];
     }
 }
 
-window.onload = function () {
+window.onload = function() {
     const cvs = document.getElementById("game-canvas");
     const ctx = cvs.getContext("2d");
 
@@ -95,7 +95,7 @@ window.onload = function () {
             jumpHeight: 100
         },
 
-        getDifficulty: function () {
+        getDifficulty: function() {
             switch (localStorage.difficulty) {
                 case "easy":
                     return this.easy;
@@ -119,7 +119,7 @@ window.onload = function () {
     let pipesSpeed = difficulty.getDifficulty().pipesSpeed;
     let distanceBetweenPipes = difficulty.getDifficulty().distanceBetweenPipes;
 
-   
+
     //dragon object
     const drake = {
         x: 0,
@@ -128,12 +128,12 @@ window.onload = function () {
         h: cvs.width * .10,
         index: 0,
         radius: cvs.width * .10,
-        draw: function () {
+        draw: function() {
             // dragonImg.src = `${drakeSrc}/${this.index}.png`;
             dragonImg.src = drakeSrcFile.getDragonSrc()[this.index];
             ctx.drawImage(dragonImg, this.x, this.y, this.w, this.h);
         },
-        update: function () {
+        update: function() {
             if (frames % flappingSpeed == 0) {
                 if (this.index < drakeFPS) {
                     this.index++;
@@ -143,7 +143,7 @@ window.onload = function () {
             }
             this.gravity();
         },
-        gravity: function () {
+        gravity: function() {
 
             this.y += planetGravity;
 
@@ -153,7 +153,7 @@ window.onload = function () {
 
             }
         },
-        moveUp: function () {
+        moveUp: function() {
             if (this.y - jumpHeight > 0) {
                 this.y -= jumpHeight;
             }
@@ -169,7 +169,7 @@ window.onload = function () {
         rw: cvs.width * 0.09,
         rh: cvs.height * 0.07,
 
-        draw: function () {
+        draw: function() {
 
             ctx.drawImage(game_overRestart, this.rx, this.ry, this.rw, this.rh);
         }
@@ -185,7 +185,7 @@ window.onload = function () {
         hw: cvs.width * 0.09,
         hh: cvs.height * 0.07,
 
-        draw: function () {
+        draw: function() {
             ctx.drawImage(game_overHome, this.hx, this.hy, this.hw, this.hh);
 
         }
@@ -201,7 +201,7 @@ window.onload = function () {
         w: cvs.width * 0.28,
         h: cvs.height * 0.44,
 
-        draw: function () {
+        draw: function() {
             ctx.drawImage(game_over, this.x, this.y, this.w, this.h);
             home.draw();
             restart.draw();
@@ -218,7 +218,7 @@ window.onload = function () {
         w: cvs.width,
         h: cvs.height,
 
-        draw: function () {
+        draw: function() {
             ctx.drawImage(bgImage, this.x, this.y, this.w, this.h);
         }
     };
@@ -231,11 +231,11 @@ window.onload = function () {
         h: cvs.height * 0.25,
         dx: 2,
 
-        draw: function () {
+        draw: function() {
             ctx.drawImage(fg1Image, this.x, this.y, this.w, this.h);
         },
 
-        update: function () {
+        update: function() {
             this.x = (this.x - this.dx) % (this.w / 2);
         }
 
@@ -249,12 +249,12 @@ window.onload = function () {
         h: cvs.height * 0.17,
         dx: 2,
 
-        draw: function () {
+        draw: function() {
             ctx.drawImage(fg2Image, this.x, this.y, this.w, this.h);
             ctx.drawImage(fg2Image, this.x + this.w, this.y, this.w, this.h);
         },
 
-        update: function () {
+        update: function() {
             this.x = (this.x - this.dx) % (this.w / 2);
         }
 
@@ -269,7 +269,7 @@ window.onload = function () {
         gap: pipesGap,
         dx: pipesSpeed,
 
-        draw: function () {
+        draw: function() {
             for (let i = 0; i < this.position.length; i++) {
                 let p = this.position[i];
                 let northY = p.y;
@@ -281,13 +281,13 @@ window.onload = function () {
             }
         },
 
-        update: function () {
+        update: function() {
             //Create new pipes with random y position
             if (frames % distanceBetweenPipes === 0) {
                 this.position.push({
                     x: cvs.width,
                     y: Math.floor(this.maxYPos * (Math.random() + 1))
-                    //y: this.maxYPos * (Math.random() + 1)
+                        //y: this.maxYPos * (Math.random() + 1)
                 })
             }
 
@@ -299,18 +299,18 @@ window.onload = function () {
                 let bottomPipeYPos = p.y + this.h + this.gap;
 
 
-                if (drake.x + drake.radius > p.x &&
-                    drake.x - drake.radius < p.x + this.w &&
-                    drake.y + drake.radius > p.y && drake.y + drake.radius * .2 < p.y + this.h) {
+                if (drake.x + drake.radius - (drake.radius * .2) > p.x &&
+                    drake.x - drake.radius - (drake.radius * .5) < p.x + this.w &&
+                    drake.y + drake.radius - (drake.radius * .2) > p.y && drake.y + drake.radius * .3 < p.y + this.h) {
 
                     isGameOver = true;
 
 
                 }
                 //Bottom pipe
-                if (drake.x + drake.radius > p.x &&
-                    drake.x - drake.radius < p.x + this.w &&
-                    drake.y + drake.radius - drake.radius * .1 > bottomPipeYPos) {
+                if (drake.x + drake.radius - drake.radius * .2 > p.x &&
+                    drake.x - drake.radius - drake.radius * .2 < p.x + this.w &&
+                    drake.y + drake.radius - drake.radius * .2 > bottomPipeYPos) {
 
                     isGameOver = true;
                 }
@@ -344,7 +344,7 @@ window.onload = function () {
         best: parseInt(localStorage.getItem("best")) || 0,
         value: 0,
 
-        draw: function () {
+        draw: function() {
 
             if (!isGameOver) {
 
@@ -360,7 +360,7 @@ window.onload = function () {
 
         },
         //draw score & best values after game over
-        drawScoreAfterGameOver: function () {
+        drawScoreAfterGameOver: function() {
             ctx.fillStyle = "#fff";
             //Score value
             ctx.font = "25px helvetica #fff";
@@ -453,5 +453,3 @@ window.onload = function () {
 
     gameMusic.play();
 }
-
-
